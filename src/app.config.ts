@@ -1,5 +1,5 @@
 export default defineAppConfig({
-  pages: ["pages/post/index", "pages/weather/index", "pages/my/index"],
+  pages: ["pages/news/index", "pages/weather/index", "pages/my/index"],
   window: {
     backgroundTextStyle: "light",
     navigationBarBackgroundColor: "#fff",
@@ -13,7 +13,7 @@ export default defineAppConfig({
     // backgroundColor: "#000000",
     list: [
       {
-        pagePath: "pages/post/index",
+        pagePath: "pages/news/index",
         text: "早报",
       },
       {
