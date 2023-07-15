@@ -1,28 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import './index.less'
-import { Avatar, WaterMark } from '@nutui/nutui-react-taro'
-import { Block } from '@tarojs/components'
-import Taro from '@tarojs/taro'
+import { Empty, WaterMark,Button, Dialog } from '@nutui/nutui-react-taro'
+import { Block,  } from '@tarojs/components'
+
 
 function Index() {
-  const _init = ()=>{
-    Taro.getUserProfile({
-      lang:"zh_CN",
-      desc:"获取你的昵称、头像、地区及性别",
-      success:(result)=>{
-console.log(result,'success')
-      },
-      fail:(res)=>{
-        console.log(res,'error')
-      }
-    })
-  }
-  useEffect(()=>{
-    _init()
-  },[])
+const [visible,setVisible] = useState(false)
   return (
     <Block>
-      
+      <Empty status="error" description="加载失败">
+      <div style={{marginTop: "10px"}}>
+        <Button icon="refresh" type="primary" onClick={() => setVisible(true)}>重试</Button>
+      </div>
+    </Empty>
+    <Dialog 
+      title="当当当"
+      visible={visible}
+      confirmText='确认'
+      hideCancelButton
+      onConfirm={() => setVisible(false)}
+    >
+      暂无想法
+    </Dialog>
       <WaterMark
         zIndex={200}
         content="什么你的我的"

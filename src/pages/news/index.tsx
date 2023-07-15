@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './index.less'
 import { NoticeBar } from '@nutui/nutui-react-taro'
 import { queryNews } from '../../api/news'
-import { Block, CoverImage, View } from '@tarojs/components'
+import { CoverImage, View } from '@tarojs/components'
 
 
 function Index() {
@@ -23,7 +23,7 @@ function Index() {
   }, [])
   return (
     <View className='news'>
-    <NoticeBar content="你怎么可以怎么好看 你怎么可以怎么好看 真他奶奶不要脸" />
+    <NoticeBar content="你怎么可以怎么好看 你怎么可以怎么好看 你怎么可以怎么好看 你怎么可以怎么好看" />
    <CoverImage src={news?.image||''}></CoverImage>
     </View>
   )
