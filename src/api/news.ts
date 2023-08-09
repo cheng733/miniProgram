@@ -5,6 +5,7 @@ export declare namespace queryNews {
         weiyu: string;
         image: string;
         news: string[];
+        head_image:string
     }
   interface response {
     status: number;

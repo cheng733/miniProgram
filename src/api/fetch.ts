@@ -2,7 +2,7 @@ import Fetch from "../packages/Fetch";
 
 const createFetch = () => {
   return new Fetch({
-    baseURL: "http://localhost:8080",
+    baseURL: "https://cheyou.xyz/api",
     interceptorsReqSuccessHandle: (config) => {},
     interceptorsReqErrorHandle: (e) => {},
     interceptorsResSuccessHandle: (config) => {},

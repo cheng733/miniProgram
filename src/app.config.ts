@@ -27,4 +27,7 @@ export default defineAppConfig({
     ],
   },
   usingComponents: {},
+  lazyCodeLoading: "requiredComponents",
+  enableShareAppMessage: true,
+  enableShareTimeline:true
 });
