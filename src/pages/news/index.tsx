@@ -7,29 +7,33 @@ import Taro from '@tarojs/taro'
 
 function Index() {
   const [news, setNews] = useState<queryNews.news>()
-  const [id, setId] = useState(0)
   const newRef = useRef<HTMLDivElement>(null)
   const el = useRef<HTMLDivElement>(null)
   const scrollViewRef = useRef<any>(null)
-  const scrollToBottom = () => {
-    Taro.pageScrollTo({
-      scrollTop: 1000000,
-      duration: 300
-    })
-  }
-  const _news = news?.news
+  const autoScroll = useRef(true)
   const flag = useRef({
     idx: 0,
     itemIdx: 0,
     text: '',
     rowText: ''
   })
+  const _news = news?.news
+
+  const scrollToBottom = async () => {
+    Taro.pageScrollTo({
+      scrollTop: 1000000,
+      duration: 300
+    })
+  }
+
+
   const _init = async () => {
     try {
       const { status, data } = await queryNews()
       if (status === 200) {
         setNews(data)
       }
+
     } catch (error) {
       console.log(error)
     }
@@ -56,7 +60,7 @@ function Index() {
     }
   })
 
-  Taro.useShareTimeline(() =>{
+  Taro.useShareTimeline(() => {
     return {
       title: '啊程小站',
       path: 'pages/news/index',
@@ -64,17 +68,18 @@ function Index() {
     }
   })
   const write = () => {
-    const col = _news!.length - 1
-    const row = _news![flag.current.idx].length - 1
+    if(!_news)return
+    const col = _news?.length - 1
+    const row = _news?.[flag.current.idx]?.length - 1
+    if(!col||!row)return
     new Promise((resolve) => {
       setTimeout(() => {
-        scrollToBottom()
+        autoScroll.current && scrollToBottom()
         let idx = flag.current.idx
         let itemIdx = flag.current.itemIdx
         const row = _news![idx].length - 1
         flag.current.text += _news![idx][itemIdx]
         if (row === itemIdx) {
-          setId(idx)
           flag.current.rowText += `<View class='news-info' id='a${idx}'>${_news![idx]}</View>`
           flag.current.text = flag.current.rowText
           idx += 1
@@ -86,7 +91,7 @@ function Index() {
         flag.current.idx = idx
         flag.current.itemIdx = itemIdx
         resolve(true)
-      }, 50)
+      }, 100)
     }).then(() => {
       if (col === flag.current.idx && row < flag.current.itemIdx) return
       write()
@@ -100,15 +105,17 @@ function Index() {
     }
   }, [_news])
 
+  const handleTouch = () => {
+    autoScroll.current = false
+  }
+
   return (
-    <View className='news-wrap'>
+    <View className='news-wrap' onTouchStart={handleTouch} onTouchMove={handleTouch}>
       <ScrollView
         ref={scrollViewRef}
         scrollY
       >
         <View className='news' ref={newRef}>
-          <NoticeBar content="你怎么可以怎么好看 你怎么可以怎么好看 你怎么可以怎么好看 你怎么可以怎么好看" />
-          <Divider />
           {!_news ? <Block>
             <Skeleton className='photo' animated></Skeleton>
             <Skeleton className='title' animated></Skeleton>
